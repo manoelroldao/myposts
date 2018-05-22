@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import * as MyPostsAPI from '../utils/MyPostsAPI'
 
-const posts = [
+/*const posts = [
     {
         titulo: 'Aprendendo React',
         autor: 'Fulano de tal',
@@ -19,18 +20,26 @@ const posts = [
         data_criacao: '07-05-2018',
         vote_score: 7
     }
-]
+]*/
 
 class Posts extends Component {
+    state = {posts: []}    
+
+    componentDidMount(){
+        MyPostsAPI.getAllPosts().then((posts) => {
+            this.setState({posts})
+        })        
+    }   
+        
     render() {
+        console.log(this.state.posts)
         return (
-            <div className="grid-posts">
-                {posts.map((post) => (
-                    <div className="posts">
-                        <p>Título: {post.titulo}</p>
-                        <p>Autor: {post.autor}</p>
-                        <p>Criado em: {post.data_criacao}</p>
-                        <p>Pontuação: {post.vote_score}</p>
+            <div className="grid-posts">            
+                {this.state.posts.map((post, index) => (
+                    <div key={`post-${index}`} className="posts">
+                        <p><b>Título:</b> {post.title}</p>
+                        <p><b>Autor:</b> {post.author}</p>                        
+                        <p><b>Pontuação:</b> {post.voteScore}</p>
                     </div>
                 ))}
             </div>
@@ -39,4 +48,3 @@ class Posts extends Component {
 }
 
 export default Posts;
-

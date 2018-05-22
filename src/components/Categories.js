@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
-
-const categorias = ['React', 'Reactive Native', 'Node', 'JavaScript', 'Heroku', 'CSS']
+import * as MyPostsAPI from '../utils/MyPostsAPI';
 
 class Categories extends Component {
-    render(){
+
+    state = {categorias: []}
+
+    componentDidMount(){
+        MyPostsAPI.getAllCategories().then((categorias) => {            
+            this.setState({categorias})
+        })
+    }    
+
+    render() {        
         return (
             <div className="grid-categories">
                 Categorias
-                <ul>
-                    {categorias.map((categoria) => (
-                        <li>{categoria}</li>
+                <ol>
+                    {this.state.categorias.map((categoria, index) => (                        
+                        <li key={`categoria-${index}`}>{categoria.name}</li>                        
                     ))}
-                </ul>
+                </ol>
             </div>
         );
     }
