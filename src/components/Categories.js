@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
-import * as MyPostsAPI from '../utils/MyPostsAPI';
+import { connect } from 'react-redux';
+import { fetchAllCategories, fetchPostsByCategory } from '../actions'
 
 class Categories extends Component {
-
-    state = {categorias: []}
-
-    componentDidMount(){
-        MyPostsAPI.getAllCategories().then((categorias) => {            
-            this.setState({categorias})
-        })
-    }    
-
-    render() {        
+    componentDidMount() {
+        this.props.fetchData()
+    }
+    
+    render() {
         return (
             <div className="grid-categories">
-                Categorias
-                <ol>
-                    {this.state.categorias.map((categoria, index) => (                        
-                        <li key={`categoria-${index}`}>{categoria.name}</li>                        
+                <div>                    
+                    <button onClick={() => this.props.fetchData()}>Categorias</button>                    
+                </div>                               
+                    {this.props.categories.map((categoria, index) => (
+                        //<li key={`categoria-${index}`} onClick={() => this.props.selectCategory(categoria.name)}>{categoria.name}</li>
+                        <button key={`categoria-${index}`} onClick={() => this.props.selectCategory(categoria.name)}>{categoria.name}</button>
                     ))}
-                </ol>
+                
             </div>
         );
     }
 }
 
-export default Categories;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchData: () => dispatch(fetchAllCategories()),
+        selectCategory: (category) => dispatch(fetchPostsByCategory(category))
+    };
+};
+
+const mapStateToProps = store => ({
+    categories: store.categories
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Categories);
