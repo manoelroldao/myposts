@@ -60,8 +60,13 @@ function categories(state = initialState.categories, action) {
 }
 
 function posts(state = initialState.posts, action) {
+    
     switch (action.type) {
         case 'LOAD_POSTS':
+            return [                
+                ...action.posts // não é ideal, usar o concat é uma melhor solução
+            ]
+        case 'SORT_POSTS':
             return [                
                 ...action.posts // não é ideal, usar o concat é uma melhor solução
             ]

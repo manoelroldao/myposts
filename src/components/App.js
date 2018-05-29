@@ -3,6 +3,7 @@ import logo from '../logo.svg';
 import '../App.css';
 import Categories from './Categories';
 import Posts from './Posts';
+import {Route} from 'react-router-dom';
 
 class App extends Component {
   render() {
