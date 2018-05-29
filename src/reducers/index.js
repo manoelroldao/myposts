@@ -1,6 +1,7 @@
 import {
     LOAD_CATEGORIES,
     SELECT_CATEGORY,
+    SELECT_POST,
     ADD_POST,
     REMOVE_POST,
     ADD_COMMENT,
@@ -10,6 +11,17 @@ import { combineReducers } from 'redux';
 
 const initialState = {
     selectedCategory: null,
+    selectedPost: {
+        id: null, //'8xf0y6ziyjabvozdd253nd',
+        timestamp: null, //1467166872634,
+        title: null, //'Udacity is the best place to learn React',
+        body: null, //'Everyone says so after all.',
+        author: null, //'thingtwo',
+        category: null, //'react',
+        voteScore: null, //6,
+        deleted: null, //false,
+        commentCount: null //2
+    },
     categories: [],
     posts: [],
     comments: []
@@ -47,7 +59,7 @@ function categories(state = initialState.categories, action) {
     //console.log(action.categories)
     switch (action.type) {
         case 'LOAD_CATEGORIES':
-            return [                
+            return [
                 ...action.categories // não é ideal, usar o concat é uma melhor solução
             ]
         case 'SELECT_CATEGORY':
@@ -60,14 +72,14 @@ function categories(state = initialState.categories, action) {
 }
 
 function posts(state = initialState.posts, action) {
-    
+
     switch (action.type) {
         case 'LOAD_POSTS':
-            return [                
+            return [
                 ...action.posts // não é ideal, usar o concat é uma melhor solução
             ]
         case 'SORT_POSTS':
-            return [                
+            return [
                 ...action.posts // não é ideal, usar o concat é uma melhor solução
             ]
         case 'ADD_POST':
@@ -76,7 +88,7 @@ function posts(state = initialState.posts, action) {
             return []
         case 'SELECT_CATEGORY':
             return [
-                
+
                 ...action.posts
             ]
         default:
@@ -95,8 +107,19 @@ function comments(state = initialState.comments, action) {
     }
 }
 
+function post(state = initialState.selectedPost, action) {
+    switch (action.type) {
+        case 'SELECT_POST':
+            //console.log(action.post)
+            return action.post;        
+        default:
+            return state;
+    }
+}
+
 export default combineReducers({
     categories,
     posts,
     comments,
+    post,
 });

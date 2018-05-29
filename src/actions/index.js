@@ -3,6 +3,7 @@ import * as MyPostsAPI from '../utils/MyPostsAPI';
 export const LOAD_POSTS = 'LOAD_POSTS'
 export const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
 export const SELECT_CATEGORY = 'SELECT_CATEGORY'
+export const SELECT_POST = 'SELECT_POST'
 export const ADD_POST = 'ADD_POST'
 export const REMOVE_POST = 'REMOVE_POST'
 export const SORT_POSTS = 'SORT_POSTS'
@@ -40,6 +41,13 @@ function sortPosts(posts) {
     }
 }
 
+function selectPost(post) {
+    return {
+        type: SELECT_POST,
+        post
+    }
+}
+
 // ********* Thunks functions ***********
 
 export function fetchAllCategories() {    
@@ -70,12 +78,18 @@ export function fetchPostsByCategory(category) {
     }
 }
 
-export function sortAllPosts(info, posts) {
-    console.log(info, posts)
+export function sortAllPosts(info, posts) {    
     return (dispatch) => {
         if (info == 'voteScore')
             dispatch(sortPosts(posts.sort((a,b)=>{return b.voteScore - a.voteScore})))
         else
             dispatch(sortPosts(posts.sort((a,b)=>{return a.timestamp - b.timestamp})))        
+    }
+}
+
+export function selectedPost(post){
+    //console.log(post[0])
+    return (dispatch) =>{
+        dispatch(selectPost(post[0]));
     }
 }

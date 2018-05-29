@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAllCategories, fetchPostsByCategory } from '../actions'
+import { withRouter } from 'react-router-dom'
 
 class Categories extends Component {
     componentDidMount() {
@@ -34,7 +35,7 @@ const mapStateToProps = store => ({
     categories: store.categories
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Categories);
+)(Categories));
