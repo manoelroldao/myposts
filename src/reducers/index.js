@@ -5,7 +5,8 @@ import {
     ADD_POST,
     REMOVE_POST,
     ADD_COMMENT,
-    REMOVE_COMMENT
+    REMOVE_COMMENT,
+    LOAD_COMMENTS,
 } from '../actions'
 import { combineReducers } from 'redux';
 
@@ -98,6 +99,10 @@ function posts(state = initialState.posts, action) {
 
 function comments(state = initialState.comments, action) {
     switch (action.type) {
+        case 'LOAD_COMMENTS':
+            return [
+                ...action.comments
+            ]
         case 'ADD_COMMENT':
             return []
         case 'REMOVE_COMMENT':
@@ -109,8 +114,7 @@ function comments(state = initialState.comments, action) {
 
 function post(state = initialState.selectedPost, action) {
     switch (action.type) {
-        case 'SELECT_POST':
-            //console.log(action.post)
+        case 'SELECT_POST':            
             return action.post;        
         default:
             return state;

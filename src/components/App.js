@@ -4,6 +4,7 @@ import '../App.css';
 import Categories from './Categories';
 import Posts from './Posts';
 import Postdetails from './PostDetails'
+import Comments from './Comments'
 import { Route } from 'react-router-dom';
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
         <Route path="/postdetails" render={() => (
           <div>
             <Postdetails/>
+            <Comments/>
           </div>
         )} />
       </div>
