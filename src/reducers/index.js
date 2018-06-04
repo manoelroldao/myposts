@@ -84,7 +84,8 @@ function posts(state = initialState.posts, action) {
                 ...action.posts // não é ideal, usar o concat é uma melhor solução
             ]
         case 'ADD_POST':
-            return []
+            return  action.posts
+            
         case 'REMOVE_POST':
             return []
         case 'SELECT_CATEGORY':
@@ -104,7 +105,7 @@ function comments(state = initialState.comments, action) {
                 ...action.comments
             ]
         case 'ADD_COMMENT':
-            return []
+            return action.comments
         case 'REMOVE_COMMENT':
             return []
         default:

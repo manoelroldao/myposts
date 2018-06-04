@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Comments extends Component {    
     render() {        
@@ -16,9 +17,13 @@ class Comments extends Component {
                             <p> {new Date(comment.timestamp).toLocaleDateString()}</p>
                             <p> {comment.author}</p>
                             <p> {comment.voteScore}</p>
-                        </div>
+                            <Link to="/"><button>Editar</button></Link>
+                            <Link to="/"><button>Excluir</button></Link>
+                        </div>                       
                     ))}
+                    
                 </div>
+                
             </div>
         )
     }

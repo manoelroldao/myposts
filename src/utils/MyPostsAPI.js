@@ -15,20 +15,40 @@ export const getAllCategories = () =>
     .then(res => res.json())
     .then(data => data.categories)
 
-export const getAllPosts = () => 
+export const getAllPosts = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
     .then(data => data)
-  
-  export const getPostsByCategory = (category) => 
+
+export const getPostsByCategory = (category) =>
   fetch(`${api}/${category}/posts`, { headers })
     .then(res => res.json())
     .then(data => data)
 
-  export const getCommentsByPost = (id) => 
-    fetch(`${api}/posts/${id}/comments`, { headers })
-      .then(res => res.json())
-      .then(data => data)
+export const getCommentsByPost = (id) =>
+  fetch(`${api}/posts/${id}/comments`, { headers })
+    .then(res => res.json())
+    .then(data => data)
+
+export const createPost = (post) =>
+  fetch(`${api}/posts`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(post)
+  }).then(res => res.json())
+
+  export const createComment = (comment) =>
+  fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(comment)
+  }).then(res => res.json())
 
     /*
 export const remove = (contact) =>

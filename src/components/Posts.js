@@ -36,7 +36,9 @@ class Posts extends Component {
                         <option value="voteScore">Score</option>
                         <option value="timestamp">Criação</option>
                     </select>
-                    <button>Novo post</button>
+                    <Link to="/createpost">
+                        <button>Novo post</button>
+                    </Link>
                 </div>
                 <div className="grid-posts">
                     {this.props.posts.map((post, index) => (

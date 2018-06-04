@@ -18,6 +18,8 @@ class PostDetails extends Component {
                     <p><b>Pontuação:</b> {post.voteScore}</p>
                 </div>
                 <Link to="/"><button>Voltar</button></Link>
+                <Link to="/"><button>Editar</button></Link>
+                <Link to="/"><button>Excluir</button></Link>
             </div>
         )
     }

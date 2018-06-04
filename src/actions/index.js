@@ -1,4 +1,5 @@
 import * as MyPostsAPI from '../utils/MyPostsAPI';
+import CreateComment from '../components/CreateComment';
 
 // ********** Categorias ***********
 export const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
@@ -33,6 +34,12 @@ function loadCategories(categories) {
 }
 
 // *********** Posts ********************
+function createPosts(posts) {
+    return {
+        type: ADD_POST,
+        posts
+    }
+}
 function loadPosts(posts) {
     return {
         type: LOAD_POSTS,
@@ -59,7 +66,12 @@ function loadComments(comments) {
         comments
     }
 }
-
+function createComment(comments) {
+    return {
+        type: ADD_COMMENT,
+        comments
+    }
+}
 
 // ********* Thunks functions ***********
 
@@ -110,7 +122,25 @@ export function selectedPost(post){
     }
 }
 
+export function addPost(post, posts){    
+    return (dispatch) =>{       
+        //console.log(post, posts) 
+        MyPostsAPI.createPost(post).then((postAdded) => {
+            dispatch(createPosts(posts.concat(postAdded)))            
+        })
+    }
+}
+
 // ********** Comments ***************
+export function addComment(comment, comments){    
+    return (dispatch) =>{       
+        //console.log(comment, comments) 
+        MyPostsAPI.createComment(comment).then((commentAdded) => {
+            dispatch(createComment(comments.concat(commentAdded)))            
+        })
+    }
+}
+
 /*export function fetchCommentsByPost(post) {
     return (dispatch) => {
         MyPostsAPI.getCommentsByPost(post.id).then((comments) => {

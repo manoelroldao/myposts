@@ -3,9 +3,12 @@ import logo from '../logo.svg';
 import '../App.css';
 import Categories from './Categories';
 import Posts from './Posts';
-import Postdetails from './PostDetails'
+import PostDetails from './PostDetails'
+import CreatePost from './CreatePosts'
 import Comments from './Comments'
-import { Route } from 'react-router-dom';
+import CreateComment from './CreateComment'
+import { Route } from 'react-router-dom'
+
 
 class App extends Component {
   render() {
@@ -22,10 +25,15 @@ class App extends Component {
         )} />
         <Route path="/postdetails" render={() => (
           <div>
-            <Postdetails/>
+            <PostDetails/>
+            <CreateComment/>  
             <Comments/>
           </div>
         )} />
+
+        <Route path="/createpost" render={() => (
+          <CreatePost/>)} 
+        />
       </div>
     );
   }
