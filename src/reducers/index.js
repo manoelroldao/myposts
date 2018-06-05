@@ -107,7 +107,7 @@ function comments(state = initialState.comments, action) {
         case 'ADD_COMMENT':
             return action.comments
         case 'REMOVE_COMMENT':
-            return []
+            return action.comments
         default:
             return state;
     }

@@ -2,9 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { deleteComment } from '../actions'
 
 class Comments extends Component {    
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(event) {                              
+        console.log(event.target.value)
+        
+    }    
+
     render() {        
+        //const onRemoveComment = this.props.remove
         return (
             <div>
                 <div>
@@ -18,7 +30,7 @@ class Comments extends Component {
                             <p> {comment.author}</p>
                             <p> {comment.voteScore}</p>
                             <Link to="/"><button>Editar</button></Link>
-                            <Link to="/"><button>Excluir</button></Link>
+                            <button key={`comment-${index}`} onClick={() => this.props.remove(comment, this.props.comments)}>Excluir</button>                            
                         </div>                       
                     ))}
                     
@@ -29,10 +41,17 @@ class Comments extends Component {
     }
 }
 
-const mapStateToProps = (store) => ({
+const mapDispatchToProps = (dispatch) => {
+    return {
+        remove: (comment, comments) => dispatch(deleteComment(comment, comments))
+    }
+}
+
+const mapStateToProps = store => ({
     comments: store.comments
 })
 
 export default withRouter(connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(Comments))

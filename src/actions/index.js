@@ -72,7 +72,12 @@ function createComment(comments) {
         comments
     }
 }
-
+function removeComment(comments) {
+    return {
+        type: REMOVE_COMMENT,
+        comments
+    }
+}
 // ********* Thunks functions ***********
 
 
@@ -137,6 +142,15 @@ export function addComment(comment, comments){
         //console.log(comment, comments) 
         MyPostsAPI.createComment(comment).then((commentAdded) => {
             dispatch(createComment(comments.concat(commentAdded)))            
+        })
+    }
+}
+
+export function deleteComment(comment, comments){    
+    return (dispatch) =>{       
+        console.log(comment, comments) 
+        MyPostsAPI.removeComment(comment).then((commentRemoved) => {
+            dispatch(removeComment(comments.filter(a => a.id != commentRemoved.id)))            
         })
     }
 }

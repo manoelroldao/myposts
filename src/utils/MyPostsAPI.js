@@ -50,12 +50,13 @@ export const createPost = (post) =>
     body: JSON.stringify(comment)
   }).then(res => res.json())
 
-    /*
-export const remove = (contact) =>
-  fetch(`${api}/contacts/${contact.id}`, { method: 'DELETE', headers })
+    
+export const removeComment = (comment) =>
+  fetch(`${api}/comments/${comment.id}`, { method: 'DELETE', headers })
     .then(res => res.json())
-    .then(data => data.contact)
+    .then(data => data)
 
+    /*
 export const create = (body) =>
   fetch(`${api}/contacts`, {
     method: 'POST',

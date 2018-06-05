@@ -14,8 +14,7 @@ class Categories extends Component {
                 <div>                    
                     <button onClick={() => this.props.fetchData()}>Categorias</button>                    
                 </div>                               
-                    {this.props.categories.map((categoria, index) => (
-                        //<li key={`categoria-${index}`} onClick={() => this.props.selectCategory(categoria.name)}>{categoria.name}</li>
+                    {this.props.categories.map((categoria, index) => (                        
                         <button key={`categoria-${index}`} onClick={() => this.props.selectCategory(categoria.name)}>{categoria.name}</button>
                     ))}
                 
