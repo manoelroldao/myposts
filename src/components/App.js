@@ -17,7 +17,7 @@ class App extends Component {
         <Route exact path="/" render={() => (
           <div className="grid-container">
             <div className="grid-header">
-              Aqui vai ficar o título, ordenação e novo post
+              <h1>My Posts</h1>
           </div>
             <Categories />
             <Posts />
@@ -33,6 +33,10 @@ class App extends Component {
 
         <Route path="/createpost" render={() => (
           <CreatePost/>)} 
+        />
+
+        <Route path="/editcomment" render={() => (
+          <CreateComment/>)} 
         />
       </div>
     );

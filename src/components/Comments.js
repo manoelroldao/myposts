@@ -3,20 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { deleteComment } from '../actions'
+import Vote from './Vote'
 
-class Comments extends Component {    
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(event) {                              
-        console.log(event.target.value)
-        
-    }    
-
-    render() {        
-        //const onRemoveComment = this.props.remove
+class Comments extends Component {
+    render() {
         return (
             <div>
                 <div>
@@ -28,14 +18,20 @@ class Comments extends Component {
                             <p> {comment.body}</p>
                             <p> {new Date(comment.timestamp).toLocaleDateString()}</p>
                             <p> {comment.author}</p>
-                            <p> {comment.voteScore}</p>
-                            <Link to="/"><button>Editar</button></Link>
-                            <button key={`comment-${index}`} onClick={() => this.props.remove(comment, this.props.comments)}>Excluir</button>                            
-                        </div>                       
+                            <p> {comment.voteScore}<Vote type="Comment" data={comment}/></p>
+                            <Link to={
+                                {
+                                    pathname: "/editcomment",
+                                    state: { 
+                                        updateComment: true,
+                                        comment: comment
+                                     }
+                                }
+                            }><button>Editar</button></Link>
+                            <button key={`comment-${index}`} onClick={() => this.props.remove(comment, this.props.comments)}>Excluir</button>
+                        </div>
                     ))}
-                    
                 </div>
-                
             </div>
         )
     }

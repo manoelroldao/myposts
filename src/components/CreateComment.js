@@ -1,45 +1,55 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { uuidv4 } from '../utils/Uuid';
-import { addComment } from '../actions';
-//import {Route} from 'react-router-dom'
+import { addComment, updateComment } from '../actions';
 
 class CreateComment extends Component {
     constructor(props) {
         super(props);
-        //this.state = { category: 'react' };
-        //this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            updateComment: (this.props.location.state) ? this.props.location.state.updateComment : false,
+            comment: (this.props.location.state) ? this.props.location.state.comment : ""
+        }
     }
-    
+
     handleSubmit = (e) => {
-        e.preventDefault()        
+        e.preventDefault()
         const values = serializeForm(e.target, { hash: true })
         let myComment = {
             id: uuidv4(),
-            parentId: this.props.post.id, 
+            parentId: this.props.post.id,
             timestamp: Date.now(),
             ...values
         }
 
-        this.props.createComment(myComment, this.props.comments) 
-        e.target.value = ''       
-    }   
+        if (this.state.updateComment){
+            myComment.id = this.state.comment.id
+            myComment.timestamp = this.state.comment.timestamp
+            this.props.update(myComment, this.props.comments)
+            this.props.history.push('/')
+        }
+        else{
+            this.props.createComment(myComment, this.props.comments)
+            e.target.value = ''
+        }
+    }
 
-    /*handleChange(event) {               
-        //this.setState({ category: event.target.value })
-    }*/
+    componentWillMount(){
+        this.commentAuthor =  this.state.comment ? this.state.comment.author : "Autor"
+        this.commentBody = this.state.comment ? this.state.comment.body : "Conteúdo"
+    }
 
-    render() {       
+    render() {
         return (
             <div>
                 <h4>Comentar</h4>
                 <form onSubmit={this.handleSubmit}>
-                    <div>                        
-                        <div><input type="text" name="author" placeholder="Autor" size="100" /></div>                        
-                        <div><textarea cols="101" rows="10" name="body" placeholder="Conteúdo" /></div>
+                    <div>
+                        <div><input type="text" name="author" placeholder={this.commentAuthor} size="100" /></div>
+                        <div><textarea cols="101" rows="10" name="body" placeholder={this.commentBody} /></div>
                         <div><button>comentar</button></div>
                     </div>
                 </form>
@@ -50,14 +60,14 @@ class CreateComment extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createComment: (comment, comments) => dispatch(addComment(comment, comments))
+        createComment: (comment, comments) => dispatch(addComment(comment, comments)),
+        update: (comment, comments) => dispatch(updateComment(comment, comments))
     }
 }
 
 const mapStateToProps = store => (
     {
-      //  categories:store.categories,
-        comments:store.comments,
+        comments: store.comments,
         post: store.post,
     }
 )
@@ -66,4 +76,3 @@ export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps,
 )(CreateComment));
-

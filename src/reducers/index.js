@@ -53,6 +53,7 @@ const initialState = {
             voteScore: null, //6,
             deleted: null, //false,
             parentDeleted: null, //false
+            commentCount
         }],*/
 }
 
@@ -84,15 +85,16 @@ function posts(state = initialState.posts, action) {
                 ...action.posts // não é ideal, usar o concat é uma melhor solução
             ]
         case 'ADD_POST':
-            return  action.posts
-            
+            return  action.posts            
         case 'REMOVE_POST':
-            return []
+            return action.posts
         case 'SELECT_CATEGORY':
             return [
 
                 ...action.posts
             ]
+        case 'UPDATE_POST':
+            return action.posts
         default:
             return state;
     }
@@ -108,6 +110,8 @@ function comments(state = initialState.comments, action) {
             return action.comments
         case 'REMOVE_COMMENT':
             return action.comments
+        case 'UPDATE_COMMENT':
+            return action.comments
         default:
             return state;
     }
@@ -116,7 +120,9 @@ function comments(state = initialState.comments, action) {
 function post(state = initialState.selectedPost, action) {
     switch (action.type) {
         case 'SELECT_POST':            
-            return action.post;        
+            return action.post;
+        case 'UPDATE_POST':
+            return action.post        
         default:
             return state;
     }

@@ -47,6 +47,7 @@ class Posts extends Component {
                             <p><b>Criado em:</b> {new Date(post.timestamp).toLocaleDateString()}</p>
                             <p><b>Autor:</b> {post.author}</p>
                             <p><b>Pontuação:</b> {post.voteScore}</p>
+                            <p><b>Comentários:</b> {post.commentCount}</p>
                             <Link to="/postdetails">
                                 <button name={`btn-${index}`} value={post.id} onClick={this.handleChange} >Visualizar</button>
                             </Link>

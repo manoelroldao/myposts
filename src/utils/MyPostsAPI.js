@@ -6,7 +6,7 @@ if (!token)
   token = localStorage.token = Math.random().toString(36).substr(-8)
 
 const headers = {
-  'Accept': 'application/json',
+  'Accept': 'application/json, text/html',
   'Authorization': token
 }
 
@@ -40,7 +40,22 @@ export const createPost = (post) =>
     body: JSON.stringify(post)
   }).then(res => res.json())
 
-  export const createComment = (comment) =>
+export const updatePost = (post) =>
+  fetch(`${api}/posts/${post.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(post)
+  }).then(res => res.json())
+
+export const removePost = (post) =>
+  fetch(`${api}/posts/${post.id}`, { method: 'DELETE', headers })
+    .then(res => res.json())
+    .then(data => data)
+
+export const createComment = (comment) =>
   fetch(`${api}/comments`, {
     method: 'POST',
     headers: {
@@ -50,20 +65,27 @@ export const createPost = (post) =>
     body: JSON.stringify(comment)
   }).then(res => res.json())
 
-    
+export const updateComment = (comment) =>
+  fetch(`${api}/comments/${comment.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(comment)
+  }).then(res => res.json())
+
 export const removeComment = (comment) =>
   fetch(`${api}/comments/${comment.id}`, { method: 'DELETE', headers })
     .then(res => res.json())
     .then(data => data)
 
-    /*
-export const create = (body) =>
-  fetch(`${api}/contacts`, {
-    method: 'POST',
+export const vote = (type, id, option) =>
+  fetch((type === 'Post') ? `${api}/posts/${id}` : `${api}/comments/${id}`, {
+    method: "POST",
     headers: {
       ...headers,
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     },
-    body: JSON.stringify(body)
-  }).then(res => res.json())
-*/
+    body: JSON.stringify({ option: option })
+  }).then(res => res.json());
