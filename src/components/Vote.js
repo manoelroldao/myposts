@@ -1,33 +1,34 @@
-import React, {Component} from 'react'
-import {vote} from '../actions'
+import React, { Component } from 'react'
+import { vote } from '../actions'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
-class Vote extends Component{
-        
-    changeVote(option){
+class Vote extends Component {
+
+    handleClick = (event) => {
+        event.preventDefault()        
         let datas = (this.props.type === 'Post') ? this.props.posts : this.props.comments
-        this.props.updateVote(this.props.type, option, this.props.data, datas)        
+        this.props.updateVote(this.props.type, event.target.value, this.props.data, datas)        
     }
-    
-    render(){
-        return(
+
+    render() {
+        return (
             <div>
-                <button onClick={() => {this.changeVote('upVote')}}>+</button>
-                <button onClick={() => {this.changeVote('downVote')}}>-</button>
+                <button value='upVote' onClick={(e) => this.handleClick(e)}>+</button>
+                <button value='downVote' onClick={(e) => this.handleClick(e)}>-</button>
             </div>
         )
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
+const mapDispatchToProps = (dispatch) => {
+    return {
         updateVote: (type, option, data, datas) => dispatch(vote(type, option, data, datas))
     }
 }
 
-const mapStateToProps = (store) =>{
-    return{
+const mapStateToProps = (store) => {
+    return {
         posts: store.posts,
         comments: store.comments
     }
@@ -35,5 +36,5 @@ const mapStateToProps = (store) =>{
 
 export default withRouter(connect(
     mapStateToProps,
-    mapDispatchToProps,    
+    mapDispatchToProps,
 )(Vote))

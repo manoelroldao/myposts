@@ -64,10 +64,10 @@ function categories(state = initialState.categories, action) {
             return [
                 ...action.categories // não é ideal, usar o concat é uma melhor solução
             ]
-        case 'SELECT_CATEGORY':
+        /*case 'SELECT_CATEGORY':
             return [
                 ...state.filter((cat) => (cat.name == action.name))
-            ]
+            ]*/
         default:
             return state;
     }

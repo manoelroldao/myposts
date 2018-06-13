@@ -15,6 +15,10 @@ class CreateComment extends Component {
         }
     }
 
+    handleChange = (e) => {
+        
+    }
+
     handleSubmit = (e) => {
         e.preventDefault()
         const values = serializeForm(e.target, { hash: true })
@@ -29,7 +33,7 @@ class CreateComment extends Component {
             myComment.id = this.state.comment.id
             myComment.timestamp = this.state.comment.timestamp
             this.props.update(myComment, this.props.comments)
-            this.props.history.push('/')
+            this.props.history.goBack()
         }
         else{
             this.props.createComment(myComment, this.props.comments)
@@ -38,8 +42,8 @@ class CreateComment extends Component {
     }
 
     componentWillMount(){
-        this.commentAuthor =  this.state.comment ? this.state.comment.author : "Autor"
-        this.commentBody = this.state.comment ? this.state.comment.body : "Conteúdo"
+        this.commentAuthor =  this.state.comment ? this.state.comment.author : ""
+        this.commentBody = this.state.comment ? this.state.comment.body : ""
     }
 
     render() {
@@ -48,8 +52,8 @@ class CreateComment extends Component {
                 <h4>Comentar</h4>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <div><input type="text" name="author" placeholder={this.commentAuthor} size="100" /></div>
-                        <div><textarea cols="101" rows="10" name="body" placeholder={this.commentBody} /></div>
+                        <div><input type="text" name="author" placeholder="Autor" defaultValue={this.commentAuthor} size="100" /></div>
+                        <div><textarea cols="101" rows="10" name="body" placeholder="Conteúdo" defaultValue={this.commentBody} /></div>
                         <div><button>comentar</button></div>
                     </div>
                 </form>

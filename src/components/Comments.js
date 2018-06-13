@@ -21,7 +21,7 @@ class Comments extends Component {
                             <p> {comment.voteScore}<Vote type="Comment" data={comment}/></p>
                             <Link to={
                                 {
-                                    pathname: "/editcomment",
+                                    pathname: "/comments/edit",
                                     state: { 
                                         updateComment: true,
                                         comment: comment

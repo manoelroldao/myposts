@@ -46,13 +46,22 @@ function createPosts(posts) {
         posts
     }
 }
-function updatePost(post, posts) {
+function changePost(post, posts) {
     return {
         type: UPDATE_POST,
         post,
         posts
     }
 }
+
+function votePost(post, posts) {
+    return {
+        type: UPDATE_POST,
+        post,
+        posts
+    }
+}
+
 function loadPosts(posts) {
     return {
         type: LOAD_POSTS,
@@ -97,7 +106,14 @@ function removeComment(comments) {
         comments
     }
 }
-function updateComment(comments) {
+function changeComment(comments) {
+    return {
+        type: UPDATE_COMMENT,
+        comments
+    }
+}
+
+function voteComment(comments) {
     return {
         type: UPDATE_COMMENT,
         comments
@@ -137,16 +153,19 @@ export function fetchPostsByCategory(category) {
 }
 export function sortAllPosts(info, posts) {
     return (dispatch) => {
-        if (info == 'voteScore')
-            dispatch(sortPosts(posts.sort((a, b) => { return b.voteScore - a.voteScore })))
+        if (info === 'voteScore')
+            dispatch(sortPosts(posts.sort((a, b) => { return b.voteScore > a.voteScore })))
         else
-            dispatch(sortPosts(posts.sort((a, b) => { return a.timestamp - b.timestamp })))
+            dispatch(sortPosts(posts.sort((a, b) => { return a.timestamp > b.timestamp })))
     }
 }
-export function selectedPost(post) {
+export function selectedPost(id) {
     return (dispatch) => {
-        dispatch(selectPost(post[0]))
-        MyPostsAPI.getCommentsByPost(post[0].id).then((comments) => {
+        MyPostsAPI.getPost(id).then((post) => {
+            dispatch(selectPost(post))
+        })
+        
+        MyPostsAPI.getCommentsByPost(id).then((comments) => {
             dispatch(loadComments(comments.sort((a, b) => { return b.voteScore - a.voteScore })))
         })
     }
@@ -163,7 +182,7 @@ export function addPost(post, posts) {
 export function updatePost(post, posts) {
     return (dispatch) => {
         MyPostsAPI.updatePost(post).then((postAdded) => {
-            dispatch(updatePost(post, posts.filter(a => a.id != postAdded.id).concat(postAdded)))
+            dispatch(changePost(post, posts.filter(a => a.id != postAdded.id).concat(postAdded)))
         })
     }
 }
@@ -196,7 +215,7 @@ export function deleteComment(comment, comments) {
 export function updateComment(comment, comments) {
     return (dispatch) => {
         MyPostsAPI.updateComment(comment).then((commentAdded) => {
-            dispatch(updateComment(comments.filter(a => a.id != commentAdded.id).concat(commentAdded)))
+            dispatch(changeComment(comments.filter(a => a.id != commentAdded.id).concat(commentAdded)))
         })
     }
 }
@@ -210,10 +229,10 @@ export function vote(type, option, data, datas) {
     
     return (dispatch) => {
         MyPostsAPI.vote(type, data.id, option).then((dataUpdated) => {
-            if (type == 'Post')
-                dispatch(updatePost(data, datas.filter(a => a.id != dataUpdated.id).concat(dataUpdated)))
+            if (type === 'Post')
+                dispatch(votePost(data, datas.filter(a => a.id != dataUpdated.id).concat(dataUpdated).sort((a, b) => { return b.voteScore > a.voteScore })))
             else
-                dispatch(updateComment(datas.filter(a => a.id != dataUpdated.id).concat(dataUpdated)))
+                dispatch(voteComment(datas.filter(a => a.id != dataUpdated.id).concat(dataUpdated)))
         })
     }
 }

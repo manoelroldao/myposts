@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAllCategories, fetchPostsByCategory } from '../actions'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 class Categories extends Component {
+    state = {allCategories:[]}
+    
     componentDidMount() {
         this.props.fetchData()
+        if (this.props.match.params.category)
+            this.props.selectCategory(this.props.match.params.category)        
     }
     
     render() {
         return (
             <div className="grid-categories">
                 <div>                    
-                    <button onClick={() => this.props.fetchData()}>Categorias</button>                    
+                    <Link to="/"><button onClick={() => this.props.fetchData()}>Todos posts</button></Link>                    
                 </div>                               
                     {this.props.categories.map((categoria, index) => (                        
-                        <button key={`categoria-${index}`} onClick={() => this.props.selectCategory(categoria.name)}>{categoria.name}</button>
+                        <Link to={`/${categoria.name}`}>
+                            <button key={`categoria-${index}`} onClick={() => this.props.selectCategory(categoria.name)}>{categoria.name}</button>
+                        </Link>
                     ))}
                 
             </div>
