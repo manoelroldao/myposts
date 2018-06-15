@@ -5,9 +5,9 @@ import Categories from './Categories';
 import Posts from './Posts';
 import PostDetails from './PostDetails'
 import CreatePost from './CreatePosts'
-import Comments from './Comments'
 import CreateComment from './CreateComment'
-import { Route, Switch } from 'react-router-dom'
+import PageError from './PageError'
+import { Route, Switch, withRouter } from 'react-router-dom'
 
 
 class App extends Component {
@@ -25,6 +25,10 @@ class App extends Component {
             </div>
           )} />
 
+          <Route exact path="/404" render={() => (
+            <PageError/>
+          )} />
+
           <Route exact path="/posts/add/" render={() => (
             <CreatePost />)}
           />
@@ -36,8 +40,8 @@ class App extends Component {
           <Route path="/:category/:post_id" render={() => (
             <div>
               <PostDetails />
-              <CreateComment />
-              <Comments />
+              {/*<CreateComment />
+              <Comments />*/}
             </div>
           )} />
           
@@ -49,7 +53,7 @@ class App extends Component {
               <Categories />
               <Posts />
             </div>
-          )} />
+          )} />          
           
         </Switch>
       </div>
@@ -57,4 +61,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

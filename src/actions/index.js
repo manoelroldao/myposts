@@ -236,11 +236,3 @@ export function vote(type, option, data, datas) {
         })
     }
 }
-
-/*export function fetchCommentsByPost(post) {
-    return (dispatch) => {
-        MyPostsAPI.getCommentsByPost(post.id).then((comments) => {
-            dispatch(loadComments(comments.sort((a,b) => {return b.voteScore - a.voteScore})))
-        })
-    }
-}*/

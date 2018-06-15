@@ -24,6 +24,19 @@ class Posts extends Component {
         }
         else
             this.props.selectPost(value)
+    }
+
+    postEdit(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
+        if (name === "selectChangeOrder") {
+            this.setState({ sort: value })
+            this.props.sortPosts(value, this.props.posts)
+        }
+        else
+            this.props.selectPost(value)           
     }   
 
     render() {
@@ -54,9 +67,14 @@ class Posts extends Component {
                             <Link to={
                                 {
                                     pathname: "/posts/add",
-                                    state: { updatePost: true }
+                                    state: { 
+                                        updatePost: true,
+                                        post: post,
+                                    }
                                 }
-                            }><button name={`btn-2${index}`} value={post.id} onClick={this.handleChange}>Editar</button></Link>
+                            }>
+                                <button name={`btn-2${index}`} value={post.id} onClick={this.handleChange}>Editar</button>
+                            </Link>
                             <Link to="/"><button onClick={() => this.props.remove(post, this.props.posts)}>Excluir</button></Link>
                         </div>
                     ))}

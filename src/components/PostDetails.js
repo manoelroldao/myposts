@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link, Redirect } from 'react-router-dom'
 import { deletePost, selectedPost } from '../actions';
+import Comments from './Comments'
+import CreateComment from './CreateComment'
 import Vote from './Vote'
 
-
-
-class PostDetails extends Component {    
-    //state = {post:{}}
-
-    componentDidMount(){        
-        if (this.props.post.id === null)                            
+class PostDetails extends Component {
+    componentWillMount() {
+        if (this.props.post.id === null)
             this.props.selectPost(this.props.match.params.post_id)
-            //this.setState({post: this.props.post})        
     }
-    
-    render() {        
-        //const post = this.state.post
-        const {post, posts} = this.props        
-        return (            
+
+    componentDidUpdate() {
+        if (!this.props.post.id || this.props.post.id === null)
+            this.props.history.push('/404')
+    }
+
+    render() {
+        const { post, posts } = this.props
+        return (
             <div>
                 <div className="grid-posts">
                     <p><h1>{post.title}</h1></p>
@@ -32,11 +32,13 @@ class PostDetails extends Component {
                 <Link to="/"><button>Voltar</button></Link>
                 <Link to={
                     {
-                        pathname: "/posts/add",                        
+                        pathname: "/posts/add",
                         state: { updatePost: true }
                     }
                 }><button>Editar</button></Link>
                 <Link to="/"><button onClick={() => this.props.remove(post, posts)}>Excluir</button></Link>
+                <CreateComment />
+                <Comments />
             </div>
         )
     }
@@ -49,11 +51,12 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const mapStateToProps = (store) => ({
-    post: store.post,
-    posts: store.posts
-    
-})
+const mapStateToProps = (store) => {
+    return {
+        post: store.post,
+        posts: store.posts
+    }
+}
 
 export default withRouter(connect(
     mapStateToProps,
